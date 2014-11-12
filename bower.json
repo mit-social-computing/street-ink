@@ -1,0 +1,21 @@
+{
+  "name": "abtract_maps",
+  "version": "0.0.1",
+  "authors": [
+    "Brian Whitton <me@brianwhitton.com>"
+  ],
+  "description": "Freehand drawing data-backed maps using FabricJS",
+  "main": "index.html",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "lodash": "~2.4.1"
+  }
+}
