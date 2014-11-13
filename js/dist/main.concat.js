@@ -23235,7 +23235,7 @@ function mousemove(ops) {
                 strokeWidth : 5,
                 //strokeLineJoin : 'round',
                 strokeLineCap : 'round'
-            })
+            }).on('mouseover', function(e) { console.log('hover') })
             c.add(path)
 
             colorIndex++
@@ -23255,6 +23255,16 @@ function mousemove(ops) {
 }
 
 function init() {
+    xhr.responseText.split('\r').forEach(function(d, i, streets) {
+        if ( i === 0 ) { return }
+        var headers = streets[0].split(','),
+            datum = d.split(','),
+            dataObj = {}
+
+        dataObj[headers[0]] = datum[0]
+        dataObj[headers[1]] = datum[1]
+        data.push(dataObj)
+    })
     c = new fabric.Canvas($('maps'), {
         isDrawingMode : true
     })
@@ -23284,14 +23294,11 @@ function init() {
 
     canvasResize()
 
-    d3.csv('data/cambridge_streets.csv', function(error, d) {
-        data = d
-    })
-
     window.onresize = _.debounce(canvasResize, 200, true)
 }
 
-var canvasResize, c, data, paths = [], distance = 0,
+var canvasResize, c, data = [], paths = [], distance = 0,
+    xhr = new XMLHttpRequest(),
     currentCity = 0,
     colorIndex = 0,
     clear = $('clear'),
@@ -23317,5 +23324,11 @@ var canvasResize, c, data, paths = [], distance = 0,
     ]
 
 clear.addEventListener('click', function(e) { c.clear() })
-window.onload = init
+
+xhr.addEventListener('load', init)
+xhr.open('get', 'data/cambridge_streets.csv')
+xhr.send()
+
+
+//window.onload = init
 
