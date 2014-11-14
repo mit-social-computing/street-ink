@@ -23229,10 +23229,19 @@ function $(elementID) {
 }
 
 function mousemove(ops) {
-    distance += Math.sqrt(Math.pow(ops.e.movementX, 2) + Math.pow(ops.e.movementY, 2))
+    var deltaX, deltaY, e = ops.e
+    if ( ops.e.type.match(/touch/) )  {
+        deltaX = e.changedTouches[0].screenX - e.targetTouches[0].screenX
+        deltaY = e.changedTouches[0].screenY - e.targetTouches[0].screenY
+    } else {
+        deltaX = e.movementX
+        deltaY = e.movementY
+    }
+
+    distance += Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2))
 
     try {
-        if ( distance * 10 > parseFloat(data[currentCity].length) ) {
+        if ( distance * 10 > data[currentCity].length ) {
             console.log(data[currentCity].street)
             if ( colorIndex > colors.length - 1 ) { colorIndex = 0 }
 
@@ -23240,20 +23249,20 @@ function mousemove(ops) {
                 pathData = c.freeDrawingBrush.convertPointsToSVGPath(points).join(''),
                 path = new fabric.Path(pathData)
 
+            // the brush needs some points or will throw an error
+            // give it two points with no delta and it will return early
             c.freeDrawingBrush._points = [new fabric.Point(0,0), new fabric.Point(0,0)]
             c._onMouseUpInDrawingMode(ops.e)
-
             c.clearContext(c.contextTop)
+
             path.set({
                 fill : null,
                 stroke : colors[colorIndex],
                 strokeWidth : 5,
                 strokeLineCap : 'round',
-                name : data[currentCity].name,
+                name : data[currentCity].street,
                 length : data[currentCity].length,
-                //selectable : false,
-                //perPixelTargetFind : true,
-                //targetFindTolerance : 100
+                cid : data[currentCity].cid
             })
             c.add(path)
 
@@ -23261,8 +23270,10 @@ function mousemove(ops) {
             c.freeDrawingBrush.color = colors[colorIndex]
             c._onMouseDownInDrawingMode(ops.e)
 
-            distance -= parseFloat(data[currentCity].length)/10
+            distance -= data[currentCity].length/10
             currentCity++
+
+            table.rows[currentCity].style.color = colors[colorIndex]
         }
     } catch(err) {
         //console.warn('caught error')
@@ -23274,40 +23285,41 @@ function mousemove(ops) {
 }
 
 function init() {
+
     xhr.responseText.split('\r').forEach(function(d, i, streets) {
         if ( i === 0 ) { return }
         var headers = streets[0].split(','),
             datum = d.split(','),
-            dataObj = {}
+            dataObj = {},
+            row = table.insertRow(),
+            cell1 = row.insertCell(),
+            cell2 = row.insertCell()
 
-        dataObj[headers[0]] = datum[0]
-        dataObj[headers[1]] = datum[1]
+        cell1.innerHTML = dataObj[headers[0]] = datum[0]
+        cell2.innerHTML = dataObj[headers[1]] = parseFloat(datum[1])
+        cell2.innerHTML = (parseInt(cell2.innerHTML, 10) * 0.000189394).toFixed(2) + ' mi'
+        dataObj.cid = i
+
         data.push(dataObj)
     })
+
     c = new fabric.Canvas($('maps'), {
         isDrawingMode : true,
-        perPixelTargetFind : true
+        perPixelTargetFind : true,
+        targetFindTolerance : 25
     })
 
     c.freeDrawingBrush.width = 5
     c.freeDrawingBrush.color = colors[0]
+    table.rows[0].style.color = colors[0]
 
-    c.on('object:added', function(e) {
-        if ( e.target.type === 'path' ) {
-            var path = e.target
-            path.set({
-                name : data[currentCity].street,
-                length : data[currentCity].length
-            }).on('mouseenter', function(e) {
-                if ( !c._isCurrentlyDrawing ) {
-                    path.opacity = 0.5
-                    c.hoveredPath = path
-                    c.renderAll()
-
-                    console.log(path.name)
-                }
-            })
-        }
+    c.on('path:created', function(ops) {
+        var path = ops.path
+        path.set({
+            name : data[currentCity].street,
+            length : data[currentCity].length,
+            cid : data[currentCity].cid
+        })
     })
 
     c.on('mouse:down', function mousedown(e) {
@@ -23318,13 +23330,45 @@ function init() {
         c.off('mouse:move', mousemove)
     })
 
-    c.on('mouse:move', function(e) {
-        if ( c.hoveredPath && 
-            typeof c.findTarget(e) === 'undefined' &&
+    c.on('mouse:move', function(ops) {
+        var target = c.findTarget(ops.e),
+            e = ops.e
+        if ( !c.pathCache &&
+            target !== undefined &&
             !c._isCurrentlyDrawing ) {
-            c.hoveredPath.opacity = 1
-            c.hoveredPath = null
-            c.renderAll()
+            // just entered a path
+
+            c.pathCache = target
+            c.pathCache.animate('opacity', 0.5, {
+                onChange : c.renderAll.bind(c),
+                duration : 75
+            })
+
+            tip.innerHTML = c.pathCache.name
+            tip.style.transform = 'translateX(' + e.x + 'px) translateY(' + e.y + 'px)'
+            tip.classList.add('show')
+
+        } else if ( c.pathCache && 
+            target === undefined &&
+            !c._isCurrentlyDrawing ) {
+            // just left a path
+
+            c.pathCache.animate('opacity', 1, {
+                onChange : c.renderAll.bind(c),
+                duration : 75
+            })
+
+            tip.classList.remove('show')
+            tip.innerHTML = c.pathCache = null
+            setTimeout(function() {
+                tip.style.transform = ''
+            }, 150)
+
+        } else if ( c.pathCache &&
+            target !== undefined &&
+            !c._isCurrentlyDrawing ) {
+            // moving along a path
+            tip.style.transform = 'translateX(' + e.x + 'px) translateY(' + e.y + 'px)'
         }
     })
 
@@ -23339,11 +23383,14 @@ function init() {
 }
 
 var canvasResize, c, data = [], paths = [], distance = 0,
+    tip = $('tooltip'),
+    table = $('data'),
     xhr = new XMLHttpRequest(),
     currentCity = 0,
     colorIndex = 0,
     clear = $('clear'),
-    colors = [
+    save = $('download'),
+    colors = _.shuffle([
         "#D054DC",
         "#51AE33",
         "#DB4D2C",
@@ -23362,9 +23409,13 @@ var canvasResize, c, data = [], paths = [], distance = 0,
         "#5C5F93",
         "#9643A1",
         "#568B2D"
-    ]
+    ])
 
 clear.addEventListener('click', function(e) { c.clear() })
+save.addEventListener('click', function(e) {
+    this.setAttribute('href', c.toDataURL())
+    this.setAttribute('download', 'map')
+})
 
 xhr.addEventListener('load', init)
 xhr.open('get', 'data/cambridge_streets.csv')

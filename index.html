@@ -2,32 +2,9 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
         <title>Social Computing: Abstract Map Maker</title>
-        <style>
-            html,
-            body {
-                margin: 0;
-                padding: 0;
-                height: 100%;
-            }
-            #clear {
-                position: absolute;
-                top: 25px;
-                left: 25px;
-            }
-            .l-constrained {
-                max-width: 1200px;
-                width: 100%;
-                margin: 0 auto;
-            }
-            .l-content,
-            .l-sidebar {
-                width: 100%;
-            }
-            table {
-                border-collapse: collapse;
-            }
-        </style>
+        <link href="css/dist/styles.css" rel="stylesheet">
 
     </head>
     <body>
@@ -45,9 +22,13 @@
             </section>
             <section class="l-content">
                 <canvas id="maps" width="500" height="500"></canvas>
-                <button id="clear">clear</button>
+                <div class="controls">
+                    <button class="control" id="clear">clear</button>
+                    <a class="control" id="download" download href>save to PNG</a>
+                </div>
             </section>
         </main>
+        <span id="tooltip"></span>
 
         <script src="js/dist/main.concat.js"></script>
     </body>

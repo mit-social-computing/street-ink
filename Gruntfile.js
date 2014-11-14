@@ -8,13 +8,35 @@ var jsFiles = [
 module.exports = function(grunt) {
     grunt.initConfig({
         watch: {
-            files : ['index.html', 'js/dist/main.concat.js'],
+            files : ['index.html'
+                , 'js/dist/main.concat.js'
+                , 'css/dist/styles.css'
+            ],
             options : {
                 livereload : true
             },
             js : {
                 files : jsFiles,
                 tasks : ['concat:js']
+            }
+        },
+        compass : {
+            dist : {
+                options : {
+                    sassDir : 'css/src',
+                    cssDir : 'css/dist',
+                    require : ['compass-h5bp', 'compass-normalize'],
+                    output: 'expanded',
+                    watch : true
+                }
+            }
+        },
+        concurrent : {
+            target : {
+                tasks : ['watch', 'compass'],
+                options : {
+                    logConcurrentOutput : true
+                }
             }
         },
         concat : {
@@ -29,5 +51,8 @@ module.exports = function(grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-watch')
     grunt.loadNpmTasks('grunt-contrib-concat')
-    grunt.registerTask('default', ['watch'])
+    grunt.loadNpmTasks('grunt-contrib-compass')
+    grunt.loadNpmTasks('grunt-concurrent')
+
+    grunt.registerTask('default', ['concurrent:target'])
 }
