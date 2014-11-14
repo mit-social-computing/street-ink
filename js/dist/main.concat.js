@@ -9390,6 +9390,11 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
           pointer = fabric.util.transformPoint(this.getPointer(e, true), ivt);
       this.freeDrawingBrush.onMouseDown(pointer);
       this.fire('mouse:down', { e: e });
+
+      var target = this.findTarget(e);
+      if (typeof target !== 'undefined') {
+          target.fire('mousedown', { e : e, target : target });
+      }
     },
 
     /**
@@ -9404,6 +9409,11 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
       }
       this.setCursor(this.freeDrawingCursor);
       this.fire('mouse:move', { e: e });
+
+      var target = this.findTarget(e);
+      if (typeof target !== 'undefined') {
+          target.fire('mousemove', { e : e, target : target });
+      }
     },
 
     /**
@@ -9417,6 +9427,11 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
       }
       this.freeDrawingBrush.onMouseUp();
       this.fire('mouse:up', { e: e });
+
+      var target = this.findTarget(e);
+      if (typeof target !== 'undefined') {
+          target.fire('mouseup', { e : e, target : target });
+      }
     },
 
     /**
@@ -23233,9 +23248,13 @@ function mousemove(ops) {
                 fill : null,
                 stroke : colors[colorIndex],
                 strokeWidth : 5,
-                //strokeLineJoin : 'round',
-                strokeLineCap : 'round'
-            }).on('mouseover', function(e) { console.log('hover') })
+                strokeLineCap : 'round',
+                name : data[currentCity].name,
+                length : data[currentCity].length,
+                //selectable : false,
+                //perPixelTargetFind : true,
+                //targetFindTolerance : 100
+            })
             c.add(path)
 
             colorIndex++
@@ -23246,9 +23265,9 @@ function mousemove(ops) {
             currentCity++
         }
     } catch(err) {
-        console.warn('caught error')
+        //console.warn('caught error')
         if (points.length < 2) {
-            console.warn('removing mouse handler')
+            //console.warn('removing mouse handler')
             c.off('mouse:move', mousemove)
         }
     }
@@ -23266,7 +23285,8 @@ function init() {
         data.push(dataObj)
     })
     c = new fabric.Canvas($('maps'), {
-        isDrawingMode : true
+        isDrawingMode : true,
+        perPixelTargetFind : true
     })
 
     c.freeDrawingBrush.width = 5
@@ -23274,8 +23294,19 @@ function init() {
 
     c.on('object:added', function(e) {
         if ( e.target.type === 'path' ) {
-            e.target.selectable = false
-            e.target.perPixelTargetFind = true
+            var path = e.target
+            path.set({
+                name : data[currentCity].street,
+                length : data[currentCity].length
+            }).on('mouseenter', function(e) {
+                if ( !c._isCurrentlyDrawing ) {
+                    path.opacity = 0.5
+                    c.hoveredPath = path
+                    c.renderAll()
+
+                    console.log(path.name)
+                }
+            })
         }
     })
 
@@ -23285,6 +23316,16 @@ function init() {
 
     c.on('mouse:up', function() {
         c.off('mouse:move', mousemove)
+    })
+
+    c.on('mouse:move', function(e) {
+        if ( c.hoveredPath && 
+            typeof c.findTarget(e) === 'undefined' &&
+            !c._isCurrentlyDrawing ) {
+            c.hoveredPath.opacity = 1
+            c.hoveredPath = null
+            c.renderAll()
+        }
     })
 
     canvasResize = function() {
@@ -23328,7 +23369,3 @@ clear.addEventListener('click', function(e) { c.clear() })
 xhr.addEventListener('load', init)
 xhr.open('get', 'data/cambridge_streets.csv')
 xhr.send()
-
-
-//window.onload = init
-

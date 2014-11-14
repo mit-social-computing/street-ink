@@ -1,27 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-    <style>
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-        }
-        #clear {
-            position: absolute;
-            top: 25px;
-            left: 25px;
-        }
-    </style>
+    <head>
+        <meta charset="UTF-8">
+        <title>Social Computing: Abstract Map Maker</title>
+        <style>
+            html,
+            body {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+            }
+            #clear {
+                position: absolute;
+                top: 25px;
+                left: 25px;
+            }
+            .l-constrained {
+                max-width: 1200px;
+                width: 100%;
+                margin: 0 auto;
+            }
+            .l-content,
+            .l-sidebar {
+                width: 100%;
+            }
+            table {
+                border-collapse: collapse;
+            }
+        </style>
 
-</head>
-<body>
-    <canvas id="maps" width="500" height="500"></canvas>
-    <button id="clear">clear</button>
+    </head>
+    <body>
+        <main class="l-constrained">
+            <section class="l-sidebar">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Street Name</th>
+                            <th>Length</th>
+                        </tr>
+                    </thead>
+                    <tbody id="data"></tbody>
+                </table>
+            </section>
+            <section class="l-content">
+                <canvas id="maps" width="500" height="500"></canvas>
+                <button id="clear">clear</button>
+            </section>
+        </main>
 
-    <script src="js/dist/main.concat.js"></script>
-</body>
+        <script src="js/dist/main.concat.js"></script>
+    </body>
 </html>
