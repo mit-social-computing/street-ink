@@ -4,6 +4,14 @@ function $(elementID) {
     return document.getElementById(elementID)
 }
 
+function mousedown(e) {
+    c.on('mouse:move', mousemove)
+}
+
+function mouseup(e) {
+    c.off('mouse:move', mousemove)
+}
+
 function mousemove(ops) {
     var deltaX, deltaY, e = ops.e
     if ( ops.e.type.match(/touch/) )  {
@@ -42,14 +50,25 @@ function mousemove(ops) {
             })
             c.add(path)
 
-            colorIndex++
-            c.freeDrawingBrush.color = colors[colorIndex]
-            c._onMouseDownInDrawingMode(ops.e)
+            if ( currentCity === data.length - 1 ) {
+                c.isDrawingMode = false
+                c.off('mouse:move', mousemove)
+                c.off('mouse:down', mousedown)
+                c.off('mouse:up', mouseup)
+                c.getObjects().forEach(function(path) {
+                    path.selectable =  false
+                })
+                return 
+            } else {
+                colorIndex++
+                c.freeDrawingBrush.color = colors[colorIndex]
+                c._onMouseDownInDrawingMode(ops.e)
 
-            distance -= data[currentCity].length/10
-            currentCity++
+                distance -= data[currentCity].length/10
+                currentCity++
 
-            table.rows[currentCity].style.color = colors[colorIndex]
+                table.rows[currentCity].style.color = colors[colorIndex]
+            }
         }
     } catch(err) {
         //console.warn('caught error')
@@ -58,6 +77,15 @@ function mousemove(ops) {
             c.off('mouse:move', mousemove)
         }
     }
+}
+
+function addPathData(ops) {
+    var path = ops.path
+    path.set({
+        name : data[currentCity].street,
+        length : data[currentCity].length,
+        cid : data[currentCity].cid
+    })
 }
 
 function init() {
@@ -89,22 +117,9 @@ function init() {
     c.freeDrawingBrush.color = colors[0]
     table.rows[0].style.color = colors[0]
 
-    c.on('path:created', function(ops) {
-        var path = ops.path
-        path.set({
-            name : data[currentCity].street,
-            length : data[currentCity].length,
-            cid : data[currentCity].cid
-        })
-    })
-
-    c.on('mouse:down', function mousedown(e) {
-        c.on('mouse:move', mousemove)
-    })
-
-    c.on('mouse:up', function() {
-        c.off('mouse:move', mousemove)
-    })
+    c.on('path:created', addPathData)
+    c.on('mouse:down', mousedown)
+    c.on('mouse:up', mouseup)
 
     c.on('mouse:move', function(ops) {
         var target = c.findTarget(ops.e),
