@@ -29,6 +29,8 @@ function mousemove(ops) {
             console.log(data[currentCity].street)
             if ( colorIndex > colors.length - 1 ) { colorIndex = 0 }
 
+            // since we're still currently drawing, need to generate a path of the current
+            // undrawn points and add it manually to the canvas
             var points = c.freeDrawingBrush._points.concat([]),
                 pathData = c.freeDrawingBrush.convertPointsToSVGPath(points).join(''),
                 path = new fabric.Path(pathData)
@@ -46,7 +48,12 @@ function mousemove(ops) {
                 strokeLineCap : 'round',
                 name : data[currentCity].street,
                 length : data[currentCity].length,
-                cid : data[currentCity].cid
+                cid : data[currentCity].cid,
+                // performance considerations
+                hasControls : false,
+                hasBorders : false,
+                hasRotatingPoint : false,
+                selectable : false
             })
             c.add(path)
 
@@ -55,9 +62,9 @@ function mousemove(ops) {
                 c.off('mouse:move', mousemove)
                 c.off('mouse:down', mousedown)
                 c.off('mouse:up', mouseup)
-                c.getObjects().forEach(function(path) {
-                    path.selectable =  false
-                })
+                //c.getObjects().forEach(function(path) {
+                //    path.selectable =  false
+                //})
                 return 
             } else {
                 colorIndex++
@@ -84,7 +91,12 @@ function addPathData(ops) {
     path.set({
         name : data[currentCity].street,
         length : data[currentCity].length,
-        cid : data[currentCity].cid
+        cid : data[currentCity].cid,
+        // performance considerations
+        hasControls : false,
+        hasBorders : false,
+        hasRotatingPoint : false,
+        selectable : false
     })
 }
 
@@ -117,6 +129,7 @@ function init() {
     c.freeDrawingBrush.color = colors[0]
     table.rows[0].style.color = colors[0]
 
+    // this checks for paths added through the drawing mode mouse up event
     c.on('path:created', addPathData)
     c.on('mouse:down', mousedown)
     c.on('mouse:up', mouseup)
