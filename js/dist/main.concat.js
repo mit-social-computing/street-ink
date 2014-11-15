@@ -23373,8 +23373,13 @@ function init() {
     })
 
     canvasResize = function() {
-        c.setWidth(document.body.clientWidth)
-        c.setHeight(document.body.clientHeight)
+        c.setWidth($('canvasContainer').clientWidth)
+        // compute inner height for main
+        var main = $('main'),
+            styles = window.getComputedStyle(main),
+            height = main.clientHeight - (parseFloat(styles.paddingTop) + parseFloat(styles.paddingBottom))
+
+        c.setHeight(height)
     }
 
     canvasResize()

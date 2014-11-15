@@ -21,19 +21,22 @@ module.exports = function(grunt) {
             }
         },
         compass : {
+            options : {
+                sassDir : 'css/src',
+                cssDir : 'css/dist',
+                require : ['compass-h5bp', 'compass-normalize'],
+                output: 'expanded',
+            },
+            compile :  {
+                watch : false
+            },
             dist : {
-                options : {
-                    sassDir : 'css/src',
-                    cssDir : 'css/dist',
-                    require : ['compass-h5bp', 'compass-normalize'],
-                    output: 'expanded',
-                    watch : true
-                }
+                watch : true
             }
         },
         concurrent : {
             target : {
-                tasks : ['watch', 'compass'],
+                tasks : ['watch', 'compass:dist'],
                 options : {
                     logConcurrentOutput : true
                 }

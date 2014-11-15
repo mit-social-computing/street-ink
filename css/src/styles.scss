@@ -1,5 +1,7 @@
 @import "compass";
 
+$blue: #5383D5;
+
 *,
 *:after,
 *:before {
@@ -16,6 +18,10 @@ body {
     font-family: "Helvetica";
     font-size: 16px;
 }
+
+#maps {
+    border: $blue 2px solid;
+}
 .controls {
     position: absolute;
     top: 25px;
@@ -27,7 +33,7 @@ body {
     -webkit-appearance: none;
     border: none;
     text-decoration: none;
-    background-color: #5383D5;
+    background-color: $blue;
     border-radius: 3px;
     padding: 5px 10px;
     font-size: 0.8rem;
@@ -36,7 +42,7 @@ body {
 
     &:hover {
         cursor: pointer;
-        background-color: complement(#5383D5);
+        background-color: complement($blue);
     }
 }
 

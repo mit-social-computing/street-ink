@@ -1,4 +1,4 @@
-/* line 3, ../src/styles.scss */
+/* line 5, ../src/styles.scss */
 *,
 *:after,
 *:before {
@@ -7,7 +7,7 @@
   box-sizing: border-box;
 }
 
-/* line 11, ../src/styles.scss */
+/* line 13, ../src/styles.scss */
 html,
 body {
   margin: 0;
@@ -17,14 +17,19 @@ body {
   font-size: 16px;
 }
 
-/* line 19, ../src/styles.scss */
+/* line 22, ../src/styles.scss */
+#maps {
+  border: #5383D5 2px solid;
+}
+
+/* line 25, ../src/styles.scss */
 .controls {
   position: absolute;
   top: 25px;
   left: 25px;
 }
 
-/* line 25, ../src/styles.scss */
+/* line 31, ../src/styles.scss */
 .control {
   display: inline-block;
   -webkit-appearance: none;
@@ -40,13 +45,13 @@ body {
   -webkit-transition: background-color 150ms ease;
   transition: background-color 150ms ease;
 }
-/* line 37, ../src/styles.scss */
+/* line 43, ../src/styles.scss */
 .control:hover {
   cursor: pointer;
   background-color: #d5a553;
 }
 
-/* line 43, ../src/styles.scss */
+/* line 49, ../src/styles.scss */
 .l-constrained {
   max-width: 6000px;
   width: 100%;
@@ -56,14 +61,14 @@ body {
   padding: 15px;
 }
 
-/* line 51, ../src/styles.scss */
+/* line 57, ../src/styles.scss */
 .l-content,
 .l-sidebar {
   position: relative;
   width: 100%;
 }
 
-/* line 57, ../src/styles.scss */
+/* line 63, ../src/styles.scss */
 #tooltip {
   position: fixed;
   display: block;
@@ -78,25 +83,25 @@ body {
   -webkit-transition: opacity 150ms ease, -webkit-transform ease;
   transition: opacity 150ms ease, transform ease;
 }
-/* line 69, ../src/styles.scss */
+/* line 75, ../src/styles.scss */
 #tooltip.show {
   opacity: 1;
 }
 
-/* line 74, ../src/styles.scss */
+/* line 80, ../src/styles.scss */
 table {
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-/* line 80, ../src/styles.scss */
+/* line 86, ../src/styles.scss */
 td {
   margin: 0 5px;
 }
 
 @media only screen and (min-width: 800px) {
-  /* line 85, ../src/styles.scss */
+  /* line 91, ../src/styles.scss */
   .l-sidebar {
     width: 25%;
     max-height: 100%;
@@ -104,51 +109,51 @@ td {
     float: left;
   }
 
-  /* line 92, ../src/styles.scss */
+  /* line 98, ../src/styles.scss */
   .l-content {
     width: 75%;
     float: left;
   }
 }
 @media only screen and (max-width: 800px) {
-  /* line 99, ../src/styles.scss */
+  /* line 105, ../src/styles.scss */
   th,
   td {
     vertical-align: top;
   }
 
-  /* line 104, ../src/styles.scss */
+  /* line 110, ../src/styles.scss */
   th {
     text-align: left;
     display: block;
   }
 
-  /* line 109, ../src/styles.scss */
+  /* line 115, ../src/styles.scss */
   td {
     display: block;
     min-height: 1.25em;
     text-align: left;
   }
 
-  /* line 115, ../src/styles.scss */
+  /* line 121, ../src/styles.scss */
   table {
     display: block;
     position: relative;
     width: 100%;
   }
 
-  /* line 121, ../src/styles.scss */
+  /* line 127, ../src/styles.scss */
   thead {
     display: block;
     float: left;
   }
 
-  /* line 126, ../src/styles.scss */
+  /* line 132, ../src/styles.scss */
   thead tr {
     display: block;
   }
 
-  /* line 130, ../src/styles.scss */
+  /* line 136, ../src/styles.scss */
   tbody {
     display: block;
     width: auto;
@@ -157,7 +162,7 @@ td {
     white-space: nowrap;
   }
 
-  /* line 138, ../src/styles.scss */
+  /* line 144, ../src/styles.scss */
   tbody tr {
     display: inline-block;
     vertical-align: top;
