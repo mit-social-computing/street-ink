@@ -31,19 +31,47 @@ body {
 .control {
     display: inline-block;
     -webkit-appearance: none;
-    border: none;
     text-decoration: none;
-    background-color: $blue;
-    border-radius: 3px;
+    background-color: white;
+    border: 1px solid $blue;
     padding: 5px 10px;
     font-size: 0.8rem;
-    color: white;
+    color: #222;
     @include transition(background-color 150ms ease);
 
     &:hover {
         cursor: pointer;
-        background-color: complement($blue);
+        background-color: #eaeaea;
     }
+}
+
+.toggle {
+    margin-bottom: 16px;
+    color: #222;
+    background: white;
+    border: 1px darkred solid;
+    @include transition(background-color 150ms ease);
+
+    &:hover {
+        cursor: pointer;
+        background-color: #eaeaea;
+    }
+}
+
+.toggle:before {
+    content: "Turn On ";
+}
+
+.toggle:active {
+    background: #eaeaea;
+}
+
+.on {
+    border: 1px lightgreen solid;
+}
+
+.on:before {
+    content: "Turn Off ";
 }
 
 .l-constrained {

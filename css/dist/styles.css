@@ -33,25 +33,61 @@ body {
 .control {
   display: inline-block;
   -webkit-appearance: none;
-  border: none;
   text-decoration: none;
-  background-color: #5383D5;
-  border-radius: 3px;
+  background-color: white;
+  border: 1px solid #5383D5;
   padding: 5px 10px;
   font-size: 0.8rem;
-  color: white;
+  color: #222;
   -moz-transition: background-color 150ms ease;
   -o-transition: background-color 150ms ease;
   -webkit-transition: background-color 150ms ease;
   transition: background-color 150ms ease;
 }
-/* line 43, ../src/styles.scss */
+/* line 42, ../src/styles.scss */
 .control:hover {
   cursor: pointer;
-  background-color: #d5a553;
+  background-color: #eaeaea;
 }
 
-/* line 49, ../src/styles.scss */
+/* line 48, ../src/styles.scss */
+.toggle {
+  margin-bottom: 16px;
+  color: #222;
+  background: white;
+  border: 1px darkred solid;
+  -moz-transition: background-color 150ms ease;
+  -o-transition: background-color 150ms ease;
+  -webkit-transition: background-color 150ms ease;
+  transition: background-color 150ms ease;
+}
+/* line 55, ../src/styles.scss */
+.toggle:hover {
+  cursor: pointer;
+  background-color: #eaeaea;
+}
+
+/* line 61, ../src/styles.scss */
+.toggle:before {
+  content: "Turn On ";
+}
+
+/* line 65, ../src/styles.scss */
+.toggle:active {
+  background: #eaeaea;
+}
+
+/* line 69, ../src/styles.scss */
+.on {
+  border: 1px lightgreen solid;
+}
+
+/* line 73, ../src/styles.scss */
+.on:before {
+  content: "Turn Off ";
+}
+
+/* line 77, ../src/styles.scss */
 .l-constrained {
   max-width: 6000px;
   width: 100%;
@@ -61,14 +97,14 @@ body {
   padding: 15px;
 }
 
-/* line 57, ../src/styles.scss */
+/* line 85, ../src/styles.scss */
 .l-content,
 .l-sidebar {
   position: relative;
   width: 100%;
 }
 
-/* line 63, ../src/styles.scss */
+/* line 91, ../src/styles.scss */
 #tooltip {
   position: fixed;
   display: block;
@@ -83,25 +119,25 @@ body {
   -webkit-transition: opacity 150ms ease, -webkit-transform ease;
   transition: opacity 150ms ease, transform ease;
 }
-/* line 75, ../src/styles.scss */
+/* line 103, ../src/styles.scss */
 #tooltip.show {
   opacity: 1;
 }
 
-/* line 80, ../src/styles.scss */
+/* line 108, ../src/styles.scss */
 table {
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-/* line 86, ../src/styles.scss */
+/* line 114, ../src/styles.scss */
 td {
   margin: 0 5px;
 }
 
 @media only screen and (min-width: 800px) {
-  /* line 91, ../src/styles.scss */
+  /* line 119, ../src/styles.scss */
   .l-sidebar {
     width: 25%;
     max-height: 100%;
@@ -109,51 +145,51 @@ td {
     float: left;
   }
 
-  /* line 98, ../src/styles.scss */
+  /* line 126, ../src/styles.scss */
   .l-content {
     width: 75%;
     float: left;
   }
 }
 @media only screen and (max-width: 800px) {
-  /* line 105, ../src/styles.scss */
+  /* line 133, ../src/styles.scss */
   th,
   td {
     vertical-align: top;
   }
 
-  /* line 110, ../src/styles.scss */
+  /* line 138, ../src/styles.scss */
   th {
     text-align: left;
     display: block;
   }
 
-  /* line 115, ../src/styles.scss */
+  /* line 143, ../src/styles.scss */
   td {
     display: block;
     min-height: 1.25em;
     text-align: left;
   }
 
-  /* line 121, ../src/styles.scss */
+  /* line 149, ../src/styles.scss */
   table {
     display: block;
     position: relative;
     width: 100%;
   }
 
-  /* line 127, ../src/styles.scss */
+  /* line 155, ../src/styles.scss */
   thead {
     display: block;
     float: left;
   }
 
-  /* line 132, ../src/styles.scss */
+  /* line 160, ../src/styles.scss */
   thead tr {
     display: block;
   }
 
-  /* line 136, ../src/styles.scss */
+  /* line 164, ../src/styles.scss */
   tbody {
     display: block;
     width: auto;
@@ -162,7 +198,7 @@ td {
     white-space: nowrap;
   }
 
-  /* line 144, ../src/styles.scss */
+  /* line 172, ../src/styles.scss */
   tbody tr {
     display: inline-block;
     vertical-align: top;

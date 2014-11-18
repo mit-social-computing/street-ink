@@ -23310,6 +23310,7 @@ var events = {
 }
 
 function addPathData(ops) {
+    console.log(ops)
     var path = ops.path
     path.set({
         name : data[currentCity].street,
@@ -23321,6 +23322,7 @@ function addPathData(ops) {
         hasRotatingPoint : false,
         selectable : false
     })
+    c.renderAll()
 }
 
 function init() {
@@ -23359,9 +23361,10 @@ function init() {
     c = new fabric.Canvas($('maps'), {
         isDrawingMode : true,
         perPixelTargetFind : true,
-        targetFindTolerance : 25,
+        targetFindTolerance : 10,
         //renderOnAddRemove : false,
-        skipTargetFind : true
+        skipTargetFind : true,
+        selection : false
     })
 
     c.freeDrawingBrush.width = 5
@@ -23465,7 +23468,8 @@ save.addEventListener('click', function(e) {
     this.setAttribute('href', c.toDataURL())
     this.setAttribute('download', 'map')
 })
-drawingMode.addEventListener('change', function() {
+drawingMode.addEventListener('click', function(e) {
+    e.target.classList.toggle('on', !e.target.classList.contains('on'))
     c.toggleDrawing()
 })
 
