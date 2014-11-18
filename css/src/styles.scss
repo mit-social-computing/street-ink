@@ -28,6 +28,7 @@ body {
     left: 25px;
 }
 
+.toggle,
 .control {
     display: inline-block;
     -webkit-appearance: none;
@@ -46,16 +47,8 @@ body {
 }
 
 .toggle {
-    margin-bottom: 16px;
-    color: #222;
     background: white;
     border: 1px darkred solid;
-    @include transition(background-color 150ms ease);
-
-    &:hover {
-        cursor: pointer;
-        background-color: #eaeaea;
-    }
 }
 
 .toggle:before {
