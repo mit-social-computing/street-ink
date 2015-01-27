@@ -1,1 +1,4 @@
-{ "directory" : "js/src/bower_components" }
+{
+  "directory": "bower_components",
+  "analytics": false
+}
