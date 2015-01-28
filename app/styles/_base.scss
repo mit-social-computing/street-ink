@@ -1,0 +1,26 @@
+*,
+*:after,
+*:before {
+    @include box-sizing(border-box);
+}
+
+html,
+body {
+    height: 100%;
+}
+
+p,
+ol,
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+}

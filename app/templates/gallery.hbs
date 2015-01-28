@@ -1,5 +1,23 @@
-{{#each map in maps}}
-<p>{{#link-to 'edit' map}}<img {{bind-attr src=map.thumbnail}}>{{/link-to}}</p>
-{{/each}}
+<div class="filter-bar" id="filterBar">
+    <div class="filter">Sorty By: Date</div>
+    <div class="filter">View: all cities</div>
+</div>
+
+<div class="grid grid--three" id="galleryGrid">
+    {{#each map in maps itemController="map"}}
+
+    <div class="grid-item">
+        <div class="grid-image">
+            <img {{bind-attr src=map.thumbnail}}>
+        </div>
+        <div class="grid-body">
+            <h3 class="text-emphasis">{{map.title}}</h3>
+            <p class="text-normal">by <em>{{map.author}}</em> on <time {{bind-attr datetime=map.timestamp}}>{{map.date}}</time></p>
+            <p class="text-lesser">Streets from {{map.location}}</p>
+        </div>
+    </div>
+
+    {{/each}}
+</div>
 
 

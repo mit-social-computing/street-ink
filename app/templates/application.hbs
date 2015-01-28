@@ -1,13 +1,26 @@
-<div class="l-highlight l-hightlight--dark">
+<header class="l-highlight l-highlight--dark l-highlight--darkwavy">
     <div class="l-max">
-        {{#link-to 'new'}}Draw{{/link-to}}
-        {{#link-to 'gallery'}}Gallery{{/link-to}}
-        {{#link-to 'about'}}About{{/link-to}}
+        <nav class="navtop">
+            <div class="navtop-logo">
+                {{#link-to 'gallery'}}Street Ink{{/link-to}}
+            </div>
+            <ul class="navtop-items">
+                <li>
+                    {{#link-to 'new' classNames='navtop-item'}}Draw{{/link-to}}
+                </li>
+                <li>
+                    {{#link-to 'gallery' classNames='navtop-item'}}Gallery{{/link-to}}
+                </li>
+                <li>
+                    {{#link-to 'about' classNames='navtop-item'}}About{{/link-to}}
+                </li>
+            </ul>
+        </nav>    
     </div>
-</div>
+</header>
 
-<div {{bind-attr class=":l-highlight isAbout:l-highlight--light:l-highlight--gray"}}>
+<main {{bind-attr class=":l-main isAbout:l-main--light:l-main--gray"}} id="main">
     <div class="l-max">
         {{outlet}}
     </div>
-</div>
+</main>

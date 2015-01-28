@@ -1,0 +1,51 @@
+.grid {
+    font-size: 0;
+    text-align: justify;
+    overflow-y: scroll;
+    padding-right: 15px;
+
+    &:after {
+        content: '';
+        width: 100%;
+        display: inline-block;
+    }
+
+    &::-webkit-scrollbar {
+        width: 20px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        min-height: 100px;
+        border-radius: 40px;
+        border: 4px solid transparent;
+        background: #D9D9D9;
+        background-clip: padding-box;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: white;
+        border-radius: 60px;
+        margin-bottom: 15px;
+    }
+}
+
+.grid-item {
+    display: inline-block;
+    font-size: 16px;
+    margin-bottom: 16px;
+}
+
+.grid--three > .grid-item {
+    width: #{100/34%};
+}
+
+.grid-image {
+    border: 2px solid white;
+    margin-bottom: 8px;
+
+    > img {
+        vertical-align: middle;
+    }
+}
+
+.grid-body {}

@@ -7,8 +7,8 @@ for (var i = 0; i < 15; i++) {
         id: chance.natural({max: 100}),
         title: chance.capitalize(chance.word()),
         author: chance.name(),
-        date: chance.date({year: 2014}).getTime(),
-        location: chance.city() + ' ' + chance.state(),
+        timestamp: chance.date({year: 2014}).getTime(),
+        location: chance.city() + ', ' + chance.state(),
         thumbnail: THUMBNAIL
     })
 }
