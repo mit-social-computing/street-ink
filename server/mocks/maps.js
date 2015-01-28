@@ -1,10 +1,24 @@
+var chance = require('chance').Chance(),
+    maps = [],
+    THUMBNAIL = 'http://placehold.it/350x270'
+
+for (var i = 0; i < 15; i++) {
+    maps.push({
+        id: chance.natural({max: 100}),
+        title: chance.capitalize(chance.word()),
+        author: chance.name(),
+        date: chance.date({year: 2014}).getTime(),
+        location: chance.city() + ' ' + chance.state(),
+        thumbnail: THUMBNAIL
+    })
+}
 module.exports = function(app) {
   var express = require('express');
   var mapsRouter = express.Router();
 
   mapsRouter.get('/', function(req, res) {
     res.send({
-      'maps': []
+      'maps': maps
     });
   });
 
@@ -13,11 +27,9 @@ module.exports = function(app) {
   });
 
   mapsRouter.get('/:id', function(req, res) {
-    res.send({
-      'maps': {
-        id: req.params.id
-      }
-    });
+    var map = maps[0]
+    map.id = req.params.id
+    res.send(map)
   });
 
   mapsRouter.put('/:id', function(req, res) {
@@ -32,5 +44,5 @@ module.exports = function(app) {
     res.status(204).end();
   });
 
-  app.use('/api/maps', mapsRouter);
+  app.use('/maps', mapsRouter);
 };
