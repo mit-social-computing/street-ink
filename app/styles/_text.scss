@@ -1,3 +1,10 @@
+.text {}
+.text--large {
+    @include fontsize(32);
+    line-height: (24/$base-font);
+    font-weight: 200;
+}
+
 .text-emphasis {
     margin: 0;
     font-size: 14px;

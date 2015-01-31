@@ -7,13 +7,28 @@
 html,
 body {
     height: 100%;
+    font-family: 'Helvetica Neue', Arial sans-serif;
+    font-weight: 200;
+    @include fontsize(16);
 }
 
 p,
-ol,
-ul {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     margin: 0;
     padding: 0;
+}
+
+ol,
+ul,
+menu {
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
 a {
@@ -24,29 +39,3 @@ a {
 img {
     max-width: 100%;
 }
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    border-spacing: 0;
-}
-
-thead {
-    border-bottom: 1px solid #bbb;
-}
-
-
-th {
-    text-align: left;
-    font-weight: 200;
-    padding-bottom: 15px;
-}
-
-td {
-    margin: 0 5px;
-}
-
-tbody tr:first-child td {
-    padding-top: 15px;
-}
-

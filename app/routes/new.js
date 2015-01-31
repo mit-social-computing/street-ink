@@ -6,6 +6,7 @@ export default Ember.Route.extend({
     },
     setupController: function(controller, model) {
         controller.set('cities', model.cities)
+        controller.set('colors', model.colors)
     },
     renderTemplate: function() {
         this.render('draw')

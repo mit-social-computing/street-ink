@@ -1,14 +1,36 @@
 <div class="l-flexcontent">
-    <section class="l-sidebar">
+
+    <section class="l-sidebar" id="sidebar">
         {{drop-down 
             action='setCity'
             selectedCity=selectedCity
             cities=cities}}
 
-        <h2 class="text text--large">{{selectedCity.name}}</h2>
+        <h2 class="text text--large" id="city">{{selectedCity.name}}</h2>
 
-        {{view 'streetlist'}}
+        <div class="streetlist">
+            <div class="streetlist-row streetlist-row--header" id="tableHeader">
+                <div>Street Name</div>
+                <div>Length (mi)</div>
+            </div>
+
+            <div class="streetlist-body" id="streetlist">
+            {{#each street in selectedCity.streets}}
+                <div class="streetlist-row">
+                    <div>{{street.name}}</div>
+                    <div>{{street.length}} mi</div>
+                </div>
+            {{/each}}
+            </div>
+            <!-- .streetlist-body -->
+
+        </div>
+        <!-- .streetlist -->
     </section>
+    <!-- .l-sidebar -->
+
     <section class="l-flexarea">
+        {{map-canvas}}
     </section>
+    <!-- .l-flexarea -->
 </div>
