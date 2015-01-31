@@ -10,7 +10,6 @@ export default Ember.View.extend({
         $(window).off('resize', this.resizeGallery)
     },
     resizeGallery: Ember.run.bind(this, function() {
-        console.log('resizeGallery')
         var availableHeight = $('#main').height() - $('#filterBar').outerHeight(true)
         $('#galleryGrid').css('height', availableHeight)
     })

@@ -3,10 +3,28 @@
 }
 
 .l-max {
+    height: 100%;
     max-width: 1200px;
+    min-width: 600px;
     margin: 0 auto;
     padding: 0 15px;
     @extend %clearfix;
+}
+
+.l-flexcontent {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.l-sidebar {
+    width: 270px;
+    height: 100%;
+}
+
+.l-flexarea {
+    flex: 1 1 auto;
+    height: 100%;
 }
 
 .l-highlight {

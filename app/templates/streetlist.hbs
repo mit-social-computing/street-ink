@@ -1,0 +1,16 @@
+<table>
+    <thead>
+        <tr>
+            <th>Street Name</th>
+            <th>Length</th>
+        </tr>
+    </thead>
+    <tbody>
+    {{#each street in selectedCity.streets}}
+        <tr>
+            <td>{{street.name}}</td>
+            <td>{{street.length}} mi</td>
+        </tr>
+    {{/each}}
+    </tbody>
+</table>
