@@ -8,9 +8,6 @@ export default Ember.Controller.extend({
     willDestroy: function() {
         $(window).off('resize', this.resizeStreetlist)
     },
-    selectedCity: function() {
-        return this.get('cities').findBy('id', this.get('city'))
-    }.property('city'),
     resizeStreetlist: function() {
         var dd = $('.dropdown').outerHeight(true),
             city = $('#city').outerHeight(true),
@@ -22,7 +19,7 @@ export default Ember.Controller.extend({
     },
     actions: {
         setCity: function(city) {
-            this.set('city', city.id)
+            this.set('selectedCity', city)
             Ember.run.scheduleOnce('afterRender', this.resizeStreetlist)
         }
     }

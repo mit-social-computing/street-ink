@@ -1,7 +1,10 @@
 .canvas {
     height: 100%;
     background-color: white;
+    display: flex;
+    flex-direction: column;
 }
+
 .canvas-controlbar {
     height: $controlbar-height + #{$controlbar-border}px;
     border-bottom: #{$controlbar-border}px solid $lightestgray;
@@ -45,7 +48,7 @@
 }
 
 .canvas-body {
-    height: calc(100% - #{$controlbar-height});
+    flex: 1 0 auto;
 }
 
 .canvas-element {}

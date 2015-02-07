@@ -32,7 +32,7 @@ for (var i = 0; i < 10; i++) {
     for (var j = 0; j < 50; j++) {
         city.streets.push({
             name: chance.street({short_suffix: true}),
-            length: chance.floating({min: 0, max: 6, fixed: 2})
+            length: chance.floating({min: 0, max: 30300, fixed: 4})
         })
     }
     city.streets.sort(function(a,b) {

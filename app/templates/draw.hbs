@@ -30,7 +30,11 @@
     <!-- .l-sidebar -->
 
     <section class="l-flexarea">
-        {{map-canvas}}
+        {{map-canvas 
+            currentCity=selectedCity
+            currentStreet=currentStreet
+            pathData=pathData
+            colors=colors}}
     </section>
     <!-- .l-flexarea -->
 </div>

@@ -6,6 +6,9 @@ export default Ember.Component.extend({
         $(document).click(() => {
             this.get('element').classList.remove('active')
         })
+
+        // notify NewController to update city list size
+        this.sendAction('action', this.get('selectedCity'))
     },
     classNames: ['dropdown'],
     click: function() {

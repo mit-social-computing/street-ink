@@ -53,7 +53,7 @@ var events = {
                     hasRotatingPoint : false,
                     selectable : false
                 })
-                c.add(path)
+                //c.add(path)
 
                 if ( currentCity === data.length - 1 ) {
                     c.isDrawingMode = false
