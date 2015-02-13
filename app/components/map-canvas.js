@@ -4,12 +4,19 @@ import Ember from 'ember';
 export default Ember.Component.extend({
     classNames: ['canvas'],
     distance: 0,
+    cityChanged: function() {
+        var newCity = this.get('currentCity')
+        this.send('clear')
+        this.set('currentStreet', newCity.streets[0])
+        this.set('distance', 0)
+    }.observes('currentCity'),
     didInsertElement: function() {
         this.set('canvas', $('#maps').get(0))
-        this.set('currentColor', this.get('colors')[0])
         if (typeof this.get('currentStreet') === 'undefined') {
             this.set('currentStreet', this.get('currentCity').streets[0])
         }
+        this.set('currentColor', this.get('colors')[0])
+        Ember.set(this.get('currentStreet'), 'color', 'color: ' + this.get('currentColor') + ';')
 
         var c = new fabric.Canvas('maps', {
             isDrawingMode : true,
@@ -58,7 +65,7 @@ export default Ember.Component.extend({
         window.onresize = null
     },
     actions: {
-        save: function() {},
+        save: function() { console.log('save') },
         undo: function() {},
         clear: function() {
             this.get('fabric').clear()
@@ -99,7 +106,6 @@ export default Ember.Component.extend({
         }
 
         // a little bit of math to get the distance of a non-linear line
-        debugger;
         this.set('distance', this.get('distance') + Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2)))
         distance = this.get('distance')
 
@@ -157,9 +163,10 @@ export default Ember.Component.extend({
                     c._onMouseDownInDrawingMode(ops.e)
 
                     // reset tracked distance
-                    console.log(this.get('currentStreet'))
+                    console.log(this.get('currentStreet').name)
                     this.set('distance', distance - (this.get('currentStreet').length/10))
                     this.advance('currentStreet', allStreets)
+                    Ember.set(this.get('currentStreet'), 'color', 'color: ' + this.get('currentColor') + ';')
                 }
             }
         } catch(err) {
