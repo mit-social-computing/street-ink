@@ -7,7 +7,12 @@ if test -d $cache_dir/ruby/.gem; then
   cp -r $cache_dir/ruby/.gem $build_dir
   HOME=$build_dir gem update compass --user-install --no-rdoc --no-ri
 else
+  status "installing compass"
   HOME=$build_dir gem install compass --user-install --no-rdoc --no-ri
+  status "install bundler"
+  HOME=$build_dir gem install bundler --user-install --no-rdoc --no-ri
+  status "installing ruby deps"
+  bundle install
 fi
 
 # Cache for Ruby
