@@ -5,6 +5,6 @@ export default Ember.Route.extend({
         this.render('draw')
     },
     model: function(params) {
-        return Ember.$.getJSON('/maps/' + params.map_id)
+        return Ember.$.getJSON('/api/maps/' + params.map_id)
     }
 });
