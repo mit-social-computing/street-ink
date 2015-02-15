@@ -36,8 +36,5 @@
     "express": "^4.8.5",
     "glob": "^4.0.5",
     "morgan": "^1.5.1"
-  },
-  "dependencies": {
-    "ember-cli": "^0.1.15"
   }
 }
