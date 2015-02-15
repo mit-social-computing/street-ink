@@ -6,10 +6,19 @@ export default Ember.Component.extend({
     distance: 0,
     cityChanged: function() {
         var newCity = this.get('currentCity')
-        this.send('clear')
         this.set('currentStreet', newCity.streets[0])
+        Ember.set(newCity.streets[0], 'color', 'color: ' + this.get('currentColor') + ';')
         this.set('distance', 0)
+
+        if ( this.get('fabric') ) {
+            this.send('clear')
+        }
     }.observes('currentCity'),
+    streetChanged: function() {
+        var newStreet = this.get('currentStreet'),
+            color = this.get('currentColor')
+        Ember.set(newStreet, 'color', 'color: ' + color + ';')
+    }.observes('currentStreet'),
     didInsertElement: function() {
         this.set('canvas', $('#maps').get(0))
         if (typeof this.get('currentStreet') === 'undefined') {
@@ -17,6 +26,7 @@ export default Ember.Component.extend({
         }
         this.set('currentColor', this.get('colors')[0])
         Ember.set(this.get('currentStreet'), 'color', 'color: ' + this.get('currentColor') + ';')
+        this.set('tip', $('<div/>', {'class': 'tooltip'}))
 
         var c = new fabric.Canvas('maps', {
             isDrawingMode : true,
@@ -36,7 +46,6 @@ export default Ember.Component.extend({
                 c.setHeight(height)
             }
 
-        this.set('tip', $('<div/>', {'class': 'tooltip'}))
 
         c.freeDrawingBrush.width = 5
         c.freeDrawingBrush.color = this.get('currentColor')
@@ -52,6 +61,8 @@ export default Ember.Component.extend({
 
         window.onresize = function() {Ember.run.throttle(this, canvasResize, 100)}
         this.set('fabric', c)
+        window.sc = {}
+        window.sc.fabric = c
     },
     clearMouseEvents: function() {
         var c = this.get('fabric')
@@ -65,7 +76,9 @@ export default Ember.Component.extend({
         window.onresize = null
     },
     actions: {
-        save: function() { console.log('save') },
+        save: function() {
+            console.log(this.get('fabric').toJSON(['name', 'length']))
+        },
         undo: function() {},
         clear: function() {
             this.get('fabric').clear()
@@ -166,7 +179,6 @@ export default Ember.Component.extend({
                     console.log(this.get('currentStreet').name)
                     this.set('distance', distance - (this.get('currentStreet').length/10))
                     this.advance('currentStreet', allStreets)
-                    Ember.set(this.get('currentStreet'), 'color', 'color: ' + this.get('currentColor') + ';')
                 }
             }
         } catch(err) {
