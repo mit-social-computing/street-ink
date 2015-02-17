@@ -21,6 +21,13 @@ export default Ember.Controller.extend({
         setCity: function(city) {
             this.set('selectedCity', city)
             Ember.run.scheduleOnce('afterRender', this.resizeStreetlist)
+        },
+        saveMap: function(pathData) {
+            this.set('pathData', pathData)
+            var map = this.store.createRecord('map', {
+                path_data: JSON.stringify(pathData)
+            })
+            map.save()
         }
     }
 })

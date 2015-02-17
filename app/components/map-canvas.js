@@ -5,9 +5,9 @@ export default Ember.Component.extend({
     classNames: ['canvas'],
     distance: 0,
     cityChanged: function() {
-        var newCity = this.get('currentCity')
-        this.set('currentStreet', newCity.streets[0])
-        Ember.set(newCity.streets[0], 'color', 'color: ' + this.get('currentColor') + ';')
+        var firstStreet = this.get('currentCity.streets').objectAt(0)
+        this.set('currentStreet', firstStreet)
+        Ember.set(firstStreet, 'color', 'color: ' + this.get('currentColor.hex') + ';')
         this.set('distance', 0)
 
         if ( this.get('fabric') ) {
@@ -16,16 +16,16 @@ export default Ember.Component.extend({
     }.observes('currentCity'),
     streetChanged: function() {
         var newStreet = this.get('currentStreet'),
-            color = this.get('currentColor')
+            color = this.get('currentColor.hex')
         Ember.set(newStreet, 'color', 'color: ' + color + ';')
     }.observes('currentStreet'),
     didInsertElement: function() {
+        //debugger;
         this.set('canvas', $('#maps').get(0))
         if (typeof this.get('currentStreet') === 'undefined') {
-            this.set('currentStreet', this.get('currentCity').streets[0])
+            this.set('currentStreet', this.get('currentCity.streets').objectAt(0))
         }
-        this.set('currentColor', this.get('colors')[0])
-        Ember.set(this.get('currentStreet'), 'color', 'color: ' + this.get('currentColor') + ';')
+        Ember.set(this.get('currentStreet'), 'color', 'color: ' + this.get('currentColor.hex') + ';')
         this.set('tip', $('<div/>', {'class': 'tooltip'}))
 
         var c = new fabric.Canvas('maps', {
@@ -48,7 +48,7 @@ export default Ember.Component.extend({
 
 
         c.freeDrawingBrush.width = 5
-        c.freeDrawingBrush.color = this.get('currentColor')
+        c.freeDrawingBrush.color = this.get('currentColor.hex')
 
         c.on('mouse:down', this.mousedown.bind(this))
         c.on('mouse:up', this.mouseup.bind(this))
@@ -77,9 +77,11 @@ export default Ember.Component.extend({
     },
     actions: {
         save: function() {
-            console.log(this.get('fabric').toJSON(['name', 'length']))
+            var pathData = this.get('fabric').toJSON(['name', 'length'])
+            this.sendAction('save', pathData)
         },
-        undo: function() {},
+        undo: function() {
+        },
         clear: function() {
             this.get('fabric').clear()
         },
@@ -104,9 +106,9 @@ export default Ember.Component.extend({
         var deltaX, deltaY, 
             e = ops.e,
             c = this.get('fabric'),
-            currentCity = this.get('currentCity'),
+            //currentCity = this.get('currentCity'),
             // the streets property is not set up as an observable so we access direction
-            allStreets = currentCity.streets,
+            allStreets = this.get('currentCity.streets'),
             currentStreet = this.get('currentStreet'),
             distance
 
@@ -143,7 +145,7 @@ export default Ember.Component.extend({
 
                 path.set({
                     fill : null,
-                    stroke : this.get('currentColor'),
+                    stroke : this.get('currentColor.hex'),
                     strokeWidth : 5,
                     strokeLineCap : 'round',
                     name : currentStreet.name,
@@ -172,12 +174,12 @@ export default Ember.Component.extend({
                     // set up for next street and color
 
                     this.advance('currentColor', this.get('colors'))
-                    c.freeDrawingBrush.color = this.get('currentColor')
+                    c.freeDrawingBrush.color = this.get('currentColor.hex')
                     c._onMouseDownInDrawingMode(ops.e)
 
                     // reset tracked distance
-                    console.log(this.get('currentStreet').name)
-                    this.set('distance', distance - (this.get('currentStreet').length/10))
+                    console.log(this.get('currentStreet.name'))
+                    this.set('distance', distance - (this.get('currentStreet.length')/10))
                     this.advance('currentStreet', allStreets)
                 }
             }
@@ -245,9 +247,9 @@ export default Ember.Component.extend({
             currentIndex = collection.indexOf(current)
 
         if ( current === collection.get('lastObject') ) {
-            this.set(propertyName, collection[0])
+            this.set(propertyName, collection.objectAt(0))
         } else {
-            this.set(propertyName, collection[currentIndex + 1])
+            this.set(propertyName, collection.objectAt(currentIndex + 1))
         }
     },
     addPathData: function (ops, path) {
@@ -258,7 +260,7 @@ export default Ember.Component.extend({
 
         path.set({
             fill : null,
-            stroke : this.get('currentColor'),
+            stroke : this.get('currentColor.hex'),
             strokeWidth : 5,
             strokeLineCap : 'round',
             name : currentStreet.name,

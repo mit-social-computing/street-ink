@@ -3,13 +3,13 @@ import {
   test
 } from 'ember-qunit';
 
-moduleFor('controller:gallery', 'GalleryController', {
+moduleFor('serializer:map', 'MapSerializer', {
   // Specify the other units that are required for this test.
-  // needs: ['controller:foo']
+  // needs: ['serializer:foo']
 });
 
 // Replace this with your real tests.
 test('it exists', function() {
-  var controller = this.subject();
-  ok(controller);
+  var serializer = this.subject();
+  ok(serializer);
 });

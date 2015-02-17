@@ -11,6 +11,7 @@ Router.map(function() {
   this.route("edit", {path: "/draw/:map_id"});
   this.route("gallery");
   this.route("about");
+  this.route("admin");
 });
 
 export default Router;
