@@ -44,7 +44,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    ENV.apiHost = location.origin
+    ENV.apiHost = process.env.API_URL
     ENV.apiPrefix = '/api/'
   }
 
