@@ -2,8 +2,8 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-    classNames: ['canvas'],
     distance: 0,
+    classNames: ['canvas'],
     cityChanged: function() {
         var firstStreet = this.get('currentCity.streets').objectAt(0)
         this.set('currentStreet', firstStreet)
@@ -20,7 +20,6 @@ export default Ember.Component.extend({
         Ember.set(newStreet, 'color', 'color: ' + color + ';')
     }.observes('currentStreet'),
     didInsertElement: function() {
-        //debugger;
         this.set('canvas', $('#maps').get(0))
         if (typeof this.get('currentStreet') === 'undefined') {
             this.set('currentStreet', this.get('currentCity.streets').objectAt(0))
@@ -61,8 +60,38 @@ export default Ember.Component.extend({
 
         window.onresize = function() {Ember.run.throttle(this, canvasResize, 100)}
         this.set('fabric', c)
+        this.setupPaths()
         window.sc = {}
         window.sc.fabric = c
+    },
+    setupPaths: function() {
+        if ( this.get('model.pathData') ) {
+            this.get('fabric').loadFromJSON(this.get('model.pathData'), this.setupPathCallback.bind(this))
+        } else {
+            console.log('no path data')
+        }
+    },
+    setupPathCallback: function() {
+        var drawnStreets = this.get('fabric').getObjects(),
+            listedStreets = this.get('currentCity.streets'),
+            availableColors = this.get('colors')
+
+        drawnStreets.forEach(function(streetPath, index) {
+            var color = streetPath.get('stroke'),
+                colorObj = availableColors.findBy('hex', color),
+                streetObj = listedStreets.objectAt(index)
+
+            // need to be a bit abstract so we don't confuse the ember observers
+            // slash
+            // so we can take advantage of the ember observers
+            this.set('currentColor', colorObj)
+            this.set('currentStreet', streetObj)
+        }, this)
+
+        this.advance('currentColor', availableColors)
+        this.advance('currentStreet', listedStreets)
+        this.get('fabric').freeDrawingBrush.color = this.get('currentColor.hex')
+        this.get('fabric').renderAll()
     },
     clearMouseEvents: function() {
         var c = this.get('fabric')

@@ -2,19 +2,14 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
     model: function() {
-        return Ember.RSVP.allSettled([this.store.find('city'), this.store.find('color')])
-    },
-    setupController: function(controller, model) {
-        var cities = model[0].value,
-            colors = model[1].value
-
-        controller.set('model', cities)
-        controller.set('colors', colors)
-        controller.set('selectedCity', cities.objectAt(0))
-        controller.set('currentStreet', cities.objectAt(0).get('streets')[0])
-        controller.set('currentColor', colors.objectAt(0))
+        return this.store.createRecord('map')
     },
     renderTemplate: function() {
-        this.render('draw')
+        this.render('draw', {controller: 'draw'})
+    },
+    setupController: function(controller, model) {
+        this._super(controller, model)
+        controller.set('selectedCity', this.get('cities').get('firstObject'))
+        model.set('city', controller.get('selectedCity'))
     }
 });

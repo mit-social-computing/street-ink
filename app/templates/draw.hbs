@@ -4,7 +4,7 @@
         {{drop-down 
             action='setCity'
             selectedCity=selectedCity
-            cities=model.cities}}
+            cities=cities}}
 
         <h2 class="text text--large" id="city">{{selectedCity.name}}</h2>
 
@@ -32,11 +32,16 @@
     <section class="l-flexarea">
         {{map-canvas 
             save='saveMap'
+            model=model
             currentCity=selectedCity
-            currentStreet=currentStreet
             currentColor=currentColor
-            pathData=pathData
             colors=colors}}
+            {{!
+            currentCity=model.selectedCity
+            currentStreet=model.currentStreet
+            currentColor=model.currentColor
+            pathData=model.pathData
+            }}
     </section>
     <!-- .l-flexarea -->
 </div>

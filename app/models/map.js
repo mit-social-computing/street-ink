@@ -8,5 +8,5 @@ export default DS.Model.extend({
     location: attr(),
     thumbnail: attr(),
     pathData: attr(),
-    createdAt: attr('date')
+    city: DS.belongsTo('city')
 })
