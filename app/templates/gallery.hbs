@@ -6,7 +6,7 @@
 <div class="grid grid--three" id="galleryGrid">
     {{#each map in model}}
 
-    {{#link-to 'draw' map classNames='grid-item'}}
+    {{#link-to 'edit' map classNames='grid-item'}}
         <div class="grid-image">
             <img {{bind-attr src=map.thumbnail}}>
         </div>

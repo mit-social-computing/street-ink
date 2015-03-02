@@ -4,6 +4,10 @@
     overflow-y: scroll;
 
     @extend %scrollbar;
+
+    &::-webkit-scrollbar-track {
+        margin-bottom: 0;
+    }
 }
 
 .streetlist-row {

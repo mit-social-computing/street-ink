@@ -5,13 +5,16 @@ export default Ember.Component.extend({
     distance: 0,
     classNames: ['canvas'],
     cityChanged: function() {
-        var firstStreet = this.get('currentCity.streets').objectAt(0)
+        var firstStreet = this.get('currentCity.streets').objectAt(0),
+            fabric = this.get('fabric')
+
         this.set('currentStreet', firstStreet)
         Ember.set(firstStreet, 'color', 'color: ' + this.get('currentColor.hex') + ';')
         this.set('distance', 0)
 
-        if ( this.get('fabric') ) {
+        if ( fabric ) {
             this.send('clear')
+            fabric.freeDrawingBrush.color = this.get('currentColor.hex')
         }
     }.observes('currentCity'),
     streetChanged: function() {
@@ -19,6 +22,9 @@ export default Ember.Component.extend({
             color = this.get('currentColor.hex')
         Ember.set(newStreet, 'color', 'color: ' + color + ';')
     }.observes('currentStreet'),
+    resetModel: function() {
+        this.notifyPropertyChange('currentCity')
+    }.observes('model'),
     didInsertElement: function() {
         this.set('canvas', $('#maps').get(0))
         if (typeof this.get('currentStreet') === 'undefined') {
@@ -41,8 +47,7 @@ export default Ember.Component.extend({
                     height = $wrapper.outerHeight(true),
                     width = $wrapper.outerWidth(true)
 
-                c.setWidth(width)
-                c.setHeight(height)
+                c.setDimensions({ width: width, height: height })
             }
 
 
@@ -67,18 +72,16 @@ export default Ember.Component.extend({
     setupPaths: function() {
         if ( this.get('model.pathData') ) {
             this.get('fabric').loadFromJSON(this.get('model.pathData'), this.setupPathCallback.bind(this))
-        } else {
-            console.log('no path data')
         }
     },
     setupPathCallback: function() {
         var drawnStreets = this.get('fabric').getObjects(),
+            drawnColors = drawnStreets.mapBy('stroke').uniq(),
             listedStreets = this.get('currentCity.streets'),
             availableColors = this.get('colors')
 
-        drawnStreets.forEach(function(streetPath, index) {
-            var color = streetPath.get('stroke'),
-                colorObj = availableColors.findBy('hex', color),
+        drawnColors.forEach(function(stroke, index) {
+            var colorObj = availableColors.findBy('hex', stroke),
                 streetObj = listedStreets.objectAt(index)
 
             // need to be a bit abstract so we don't confuse the ember observers
@@ -110,6 +113,8 @@ export default Ember.Component.extend({
             this.sendAction('save', pathData)
         },
         undo: function() {
+            this.get('fabric').getObjects().pop()
+            this.get('fabric').renderAll()
         },
         clear: function() {
             this.get('fabric').clear()
@@ -135,8 +140,7 @@ export default Ember.Component.extend({
         var deltaX, deltaY, 
             e = ops.e,
             c = this.get('fabric'),
-            //currentCity = this.get('currentCity'),
-            // the streets property is not set up as an observable so we access direction
+            // the streets property is not set up as an observable so we access directly
             allStreets = this.get('currentCity.streets'),
             currentStreet = this.get('currentStreet'),
             distance
@@ -178,7 +182,7 @@ export default Ember.Component.extend({
                     strokeWidth : 5,
                     strokeLineCap : 'round',
                     name : currentStreet.name,
-                    length : currentStreet.length,
+                    length : distance,
                     // performance considerations
                     hasControls : false,
                     hasBorders : false,
@@ -293,7 +297,7 @@ export default Ember.Component.extend({
             strokeWidth : 5,
             strokeLineCap : 'round',
             name : currentStreet.name,
-            length : currentStreet.length,
+            length : this.get('distance'),
             // performance considerations
             hasControls : false,
             hasBorders : false,

@@ -32,16 +32,11 @@
     <section class="l-flexarea">
         {{map-canvas 
             save='saveMap'
+            reset='resetCanvas'
             model=model
             currentCity=selectedCity
             currentColor=currentColor
             colors=colors}}
-            {{!
-            currentCity=model.selectedCity
-            currentStreet=model.currentStreet
-            currentColor=model.currentColor
-            pathData=model.pathData
-            }}
     </section>
     <!-- .l-flexarea -->
 </div>

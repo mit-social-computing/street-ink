@@ -3,7 +3,14 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
     didInsertElement: function() {
-        $(document).click( () => this.get('element').classList.remove('active') )
+        $(document).click(function toggleActive() {
+            try {
+                this.get('element').classList.remove('active')
+            } catch (e) {
+                console.log('removing handler')
+                $(document).off('click', toggleActive)
+            }
+        }.bind(this))
         $(window).resize(this.resizeStreetlist)
     },
     willDestroyElement: function() {
