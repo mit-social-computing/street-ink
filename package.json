@@ -38,6 +38,6 @@
     "morgan": "^1.5.1"
   },
   "dependencies": {
-    "canvas": "^1.2.1"
+    "canvas": "<1.2.1"
   }
 }
