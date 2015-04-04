@@ -13,4 +13,5 @@ var App = Ember.Application.extend({
 
 loadInitializers(App, config.modulePrefix);
 
+Ember.run.backburner.DEBUG = true; // NOTE: This slows your app, don't leave it on in production.
 export default App;

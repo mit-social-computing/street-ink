@@ -23,4 +23,5 @@ var app = new EmberApp({
 
 app.import('bower_components/moment/moment.js')
 app.import('bower_components/fabric/dist/fabric.js')
+app.import('bower_components/jspdf/dist/jspdf.min.js')
 module.exports = app.toTree();

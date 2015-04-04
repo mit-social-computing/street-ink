@@ -1,4 +1,9 @@
-.text {}
+.text {
+    font-weight: 100;
+    letter-spacing: 0.5px;
+    line-height: 1.25;
+}
+
 .text--large {
     @include fontsize(32);
     line-height: (24/$base-font);

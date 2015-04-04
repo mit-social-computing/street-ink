@@ -2,8 +2,11 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+    // default attrs
     distance: 0,
     classNames: ['canvas'],
+
+    // observers
     cityChanged: function() {
         var firstStreet = this.get('currentCity.streets').objectAt(0),
             fabric = this.get('fabric')
@@ -25,6 +28,8 @@ export default Ember.Component.extend({
     resetModel: function() {
         this.notifyPropertyChange('currentCity')
     }.observes('model'),
+
+    // initial setup
     didInsertElement: function() {
         this.set('canvas', $('#maps').get(0))
         if (typeof this.get('currentStreet') === 'undefined') {
@@ -96,6 +101,10 @@ export default Ember.Component.extend({
         this.get('fabric').freeDrawingBrush.color = this.get('currentColor.hex')
         this.get('fabric').renderAll()
     },
+    willDestroyElement: function() {
+        this.clearMouseEvents()
+        window.onresize = null
+    },
     clearMouseEvents: function() {
         var c = this.get('fabric')
         c.off('mouse:down')
@@ -103,14 +112,17 @@ export default Ember.Component.extend({
         c.off('mouse:move')
         c.off('path:created')
     },
-    willDestroyElement: function() {
-        this.clearMouseEvents()
-        window.onresize = null
-    },
     actions: {
-        save: function() {
-            var pathData = this.get('fabric').toJSON(['name', 'length'])
-            this.sendAction('save', pathData)
+        openSaveModal: function(model) {
+            var fabric = this.get('fabric'),
+                pathData = fabric.toJSON(['name', 'length']),
+                imageData = fabric.toDataURL()
+            model.setProperties({
+                pathData: pathData,
+                imageData: imageData
+            })
+
+            this.sendAction('openSaveModal', model)
         },
         undo: function() {
             this.get('fabric').getObjects().pop()

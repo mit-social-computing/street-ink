@@ -6,9 +6,6 @@ export default Ember.Controller.extend({
         setCity: function(city) {
             this.set('selectedCity', city)
             this.get('model').set('city', city.id)
-        },
-        saveMap: function(pathData) {
-            this.get('model').set('pathData', pathData).save()
         }
     },
     init: function() {

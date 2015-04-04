@@ -12,7 +12,6 @@ body {
     @include fontsize(16);
 }
 
-p,
 h1,
 h2,
 h3,
@@ -21,6 +20,12 @@ h5,
 h6 {
     margin: 0;
     padding: 0;
+}
+
+p,
+.label {
+    margin-top: 0;
+    margin-bottom: 1.25rem;
 }
 
 ol,
@@ -38,4 +43,10 @@ a {
 
 img {
     max-width: 100%;
+}
+
+input {
+    display: block;
+    width: 100%;
+    border: 1px solid $gray;
 }

@@ -2,6 +2,31 @@
     height: 100%;
 }
 
+.l-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0,0,0,0.25);
+
+    display: flex;
+}
+
+.l-modal {
+    position: relative;
+    background-color: white;
+    padding: 25px;
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+}
+
+.l-module {
+    margin-bottom: 1.25rem;
+}
+
 .l-max {
     height: 100%;
     max-width: 1200px;
@@ -66,4 +91,14 @@
     &.l-main--light {
         background-color: white;
     }
+}
+
+.l-alignright {
+    text-align: right;
+}
+
+.l-upperright {
+    position: absolute;
+    top: 0;
+    right: 0;
 }

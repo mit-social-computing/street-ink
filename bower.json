@@ -2,8 +2,8 @@
   "name": "street-ink",
   "dependencies": {
     "jquery": "^1.11.1",
-    "ember": "components/ember#canary",
-    "ember-data": "components/ember-data#canary",
+    "ember": "^1.11.0",
+    "ember-data": "1.0.0-beta.16",
     "ember-resolver": "~0.1.11",
     "loader.js": "ember-cli/loader.js#1.0.1",
     "ember-cli-shims": "ember-cli/ember-cli-shims#0.0.3",
@@ -13,7 +13,8 @@
     "ember-qunit-notifications": "0.0.5",
     "qunit": "~1.17.1",
     "fabric": "~1.4.13",
-    "moment": "~2.9.0"
+    "moment": "~2.9.0",
+    "jspdf": "~1.0.272"
   },
   "devDependencies": {},
   "resolutions": {

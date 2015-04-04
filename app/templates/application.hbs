@@ -22,5 +22,7 @@
 <main {{bind-attr class=":l-main isAbout:l-main--light:l-main--gray"}} id="main">
     <div class="l-max">
         {{outlet}}
+
+        {{ outlet 'saveModal' }}
     </div>
 </main>
