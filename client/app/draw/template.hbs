@@ -1,0 +1,44 @@
+<div class="l-flexcontent">
+
+  <section class="l-sidebar" id="sidebar">
+    {{drop-down 
+      action='setCity'
+      selectedCity=selectedCity
+      cities=cities}}
+
+    <h2 class="text text--large" id="city">{{selectedCity.name}}</h2>
+
+    <div class="streetlist">
+      <div class="streetlist-row streetlist-row--header" id="tableHeader">
+        <div>Street Name</div>
+        <div>Length (mi)</div>
+      </div>
+
+      <div class="streetlist-body" id="streetlist">
+      {{#each street in selectedCity.streets}}
+        <div class="streetlist-row" {{bind-attr style=street.color}}>
+          <div>{{street.name}}</div>
+          <div>{{feet-to-miles street.length}} mi</div>
+        </div>
+      {{/each}}
+      </div>
+      <!-- .streetlist-body -->
+
+    </div>
+    <!-- .streetlist -->
+  </section>
+  <!-- .l-sidebar -->
+
+  <section class="l-flexarea">
+    {{map-canvas 
+      save='saveMap'
+      openSaveModal='openSave'
+      openPreviewModal='openPreview'
+      reset='resetCanvas'
+      model=map
+      currentCity=selectedCity
+      currentColor=currentColor
+      colors=model.colors}}
+  </section>
+  <!-- .l-flexarea -->
+</div>

@@ -1,12 +1,17 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-    model: function() {
-        return Ember.RSVP.hash({
-            cities: this.store.find('city'),
-            colors: this.store.find('color')
-        })
-    },
+  model: function() {
+    return Ember.RSVP.hash({
+      cities: this.store.find('city'),
+      colors: this.store.find('color')
+    })
+  },
+//   afterModel(model) {
+//     const colors = get(model, 'colors')
+//     const firstColor = get(colors, 'firstObject')
+//     set(model, 'currentColor', firstColor)
+//   },
     actions: {
         openSave: function(model) {
             return this.render('saveModal', {
@@ -38,4 +43,5 @@ export default Ember.Route.extend({
             })
         }
     }
-})
+});
+
