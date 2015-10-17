@@ -1,13 +1,13 @@
 var pg = require('pg'),
     Q = require('q'),
-    connectionString = process.env.DATABASE_URL || 'postgres://noSlouch:brian@localhost:5432/streetink',
+    connectionString = process.env.DATABASE_URL,
     match = connectionString.match(/postgres:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)/),
     defaults = {
-        user: match[1],
-        password: match[2],
-        host: match[3],
-        port: match[4],
-        database: match[5]
+        user: match[1] || 'noSlouch',
+        password: match[2] || 'brian',
+        host: match[3] || 'localhost',
+        port: match[4] || 5432,
+        database: match[5] || 'streetink'
     }
 
 for (var prop in defaults) {
