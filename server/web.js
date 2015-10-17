@@ -65,7 +65,7 @@ var express = require('express'),
     cors = require('cors')
 
 app.use(cors())
-app.use(bodyParser.json())
+app.use(bodyParser.json({limit: '1mb'}))
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(morgan('dev'))
