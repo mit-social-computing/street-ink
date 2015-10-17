@@ -1,0 +1,52 @@
+.canvas {
+    height: 100%;
+    background-color: white;
+}
+
+.canvas-controlbar {
+    height: #{$controlbar-height + $controlbar-border}px;
+    border-bottom: #{$controlbar-border}px solid $lightestgray;
+
+    &:after {
+        content: '';
+        display: table;
+        clear: both;
+    }
+}
+
+.canvas-button {
+    color: $darkgray;
+    font-weight: 100;
+    letter-spacing: 1px;
+    @include appearance(none);
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0 10px;
+    border-right: #{$controlbar-border}px solid $lightestgray;
+    line-height: #{$controlbar-height}px;
+
+    &:active,
+    &:focus {
+        outline: none;
+    }
+
+    &:active {
+        background-color: $lightergray;
+    }
+}
+.canvas-button--right {
+    border-left: #{$controlbar-border}px solid $lightestgray;
+    border-right: none;
+    float: right;
+    width: 40px;
+    &:after {
+        content: 'X';
+    }
+}
+
+.canvas-body {
+    height: calc(100% - 36px);
+}
+
+.canvas-element {}

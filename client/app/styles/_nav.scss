@@ -1,0 +1,30 @@
+.navtop {
+    height: 95px;
+}
+
+.navtop-logo {
+    float: left;
+    line-height: 95px;
+}
+
+.navtop-items {
+    float: right;
+    font-size: 0;
+    list-style: none;
+
+    > li {
+        display: inline-block;
+        line-height: 95px;
+        font-size: 16px;
+    }
+}
+
+.navtop-item {
+    display: block;
+    padding: 0 10px;
+    color: #999;
+
+    &.active {
+        color: #ccc;
+    }
+}

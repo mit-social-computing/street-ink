@@ -1,0 +1,23 @@
+<div class="filter-bar" id="filterBar">
+    <div class="filter">Sorty By: Date</div>
+    <div class="filter">View: all cities</div>
+</div>
+
+<div class="grid grid--three" id="galleryGrid">
+    {{#each map in model}}
+
+    {{#link-to 'edit' map classNames='grid-item'}}
+        <div class="grid-image">
+            <img {{bind-attr src=map.thumbnail}}>
+        </div>
+        <div class="grid-body">
+            <h3 class="text-emphasis">{{map.title}}</h3>
+            <p class="text-normal">by <em>{{map.author}}</em> on <time {{bind-attr datetime=map.createdAt}}>{{unix-to-calendar map.createdAt}}</time></p>
+            <p class="text-lesser">Streets from {{map.city.name}}</p>
+        </div>
+    {{/link-to}}
+
+    {{/each}}
+</div>
+
+

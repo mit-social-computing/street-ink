@@ -1,0 +1,38 @@
+.streetlist {}
+
+.streetlist-body {
+    overflow-y: scroll;
+
+    @extend %scrollbar;
+
+    &::-webkit-scrollbar-track {
+        margin-bottom: 0;
+    }
+}
+
+.streetlist-row {
+    &:after {
+        content: '';
+        display: table;
+        clear: both;
+    }
+    > div {
+        float: left;
+        padding: 3px 0;
+    }
+
+    > div:first-child {
+        width: 65%;
+    }
+
+    > div:nth-child(2) {
+        width: 35%;
+    }
+}
+
+.streetlist-row--header {
+    font-weight: 300;
+    border-bottom: 1px solid $lightergray;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
