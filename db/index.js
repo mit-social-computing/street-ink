@@ -59,7 +59,7 @@ var express = require('express'),
     AWS = require('aws-sdk'),
     query = require('./db.js'),
     app = express(),
-    port = process.env.PORT || 3000,
+    port = 3000,
     client,
     chance = require('chance').Chance(),
     cors = require('cors')
