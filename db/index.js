@@ -47,7 +47,7 @@ function postOrPut(req, res) {
             res.json(id)
         } catch(e) { console.log(e) }
     }, function(err) {
-        res.send(err)
+        res.status(500).send(err)
     })
 }
 
@@ -93,7 +93,7 @@ router.get('/colors', function(req, res) {
     query('select * from colors order by random()').then(function(results) {
         res.send({ colors: results.rows })
     }, function(err) {
-        console.log('an error:', err)
+      res.status(500).send(err)
     })
 })
 
@@ -101,7 +101,7 @@ router.get('/cities', function(req, res) {
     query('select * from cities').then(function(results) {
         res.send({ cities: results.rows })
     }, function(err) {
-        console.log('an error:', err)
+      res.status(500).send(err)
     })
 })
 
@@ -119,7 +119,7 @@ router.post('/cities', function(req, res) {
     query(queryText, [name, JSON.stringify(streets)]).then(function(result) {
         res.json(result)
     }, function(err) {
-        res.send(err)
+      res.status(500).send(err)
     })
 })
 
