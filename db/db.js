@@ -1,13 +1,12 @@
 var pg = require('pg'),
     Q = require('q'),
-    connectionString = process.env.DATABASE_URL,
-    match = connectionString.match(/postgres:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)/),
+    env = require('./secrets.json'),
     defaults = {
-        user: match[1] || 'noSlouch',
-        password: match[2] || 'brian',
-        host: match[3] || 'localhost',
-        port: match[4] || 5432,
-        database: match[5] || 'streetink'
+        user: env.DATABASE_USER,
+        password: env.DATABASE_PASSWORD,
+        host: env.DATABASE_HOST,
+        port: env.DATABASE_PORT,
+        database: env.DATABASE_NAME,
     }
 
 for (var prop in defaults) {

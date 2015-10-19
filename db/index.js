@@ -52,6 +52,7 @@ function postOrPut(req, res) {
 }
 
 var express = require('express'),
+    router = express.Router(),
     bodyParser = require('body-parser'),
     morgan = require('morgan'),
     Q = require('q'),
@@ -64,28 +65,31 @@ var express = require('express'),
     chance = require('chance').Chance(),
     cors = require('cors')
 
+
 app.use(cors())
 app.use(bodyParser.json({limit: '1mb'}))
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(morgan('dev'))
 
-app.get('/maps', function(req, res) {
+app.use('/api/v1', router)
+
+router.get('/maps', function(req, res) {
     query('select * from maps').then(function(results) {
         res.send({ maps: results.rows })
     })
 })
 
-app.get('/maps/:map_id', function(req, res) {
+router.get('/maps/:map_id', function(req, res) {
     query('select * from maps where id = $1', [req.params.map_id]).then(function(results) {
         res.send({ maps: results.rows })
     })
 })
 
-app.post('/maps', postOrPut)
-app.put('/maps/:map_id', postOrPut)
+router.post('/maps', postOrPut)
+router.put('/maps/:map_id', postOrPut)
 
-app.get('/colors', function(req, res) {
+router.get('/colors', function(req, res) {
     query('select * from colors order by random()').then(function(results) {
         res.send({ colors: results.rows })
     }, function(err) {
@@ -93,7 +97,7 @@ app.get('/colors', function(req, res) {
     })
 })
 
-app.get('/cities', function(req, res) {
+router.get('/cities', function(req, res) {
     query('select * from cities').then(function(results) {
         res.send({ cities: results.rows })
     }, function(err) {
@@ -101,7 +105,7 @@ app.get('/cities', function(req, res) {
     })
 })
 
-app.post('/cities', function(req, res) {
+router.post('/cities', function(req, res) {
     var name = req.body.name,
         streets = req.body.streets.trim().split('\n').slice(1)
 
