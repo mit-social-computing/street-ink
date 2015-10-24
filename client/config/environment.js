@@ -16,6 +16,11 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
+    },
+
+    contentSecurityPolicy: {
+      'connect-src': "'self' localhost:*",
+      'style-src': "'self' 'unsafe-inline'"
     }
   };
 
@@ -27,7 +32,7 @@ module.exports = function(environment) {
     ENV.APP.LOG_VIEW_LOOKUPS = true;
     // ENV.apiHost = 'http://localhost:5000'
     ENV.apiHost = 'http://localhost:3000'
-    ENV.apiPrefix = ''
+    ENV.apiPrefix = 'api/v1'
   }
 
   if (environment === 'test') {
@@ -46,7 +51,7 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     ENV.apiHost = process.env.API_URL
-    ENV.apiPrefix = ''
+    ENV.apiPrefix = 'api/v1'
   }
 
   return ENV;
