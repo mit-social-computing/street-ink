@@ -50,8 +50,8 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    ENV.apiHost = 'http://52.0.85.232'
-    ENV.apiPrefix = 'api/v1'
+    ENV.apiHost = 'http://52.0.85.232/'
+    ENV.apiPrefix = 'api/v1/'
   }
 
   return ENV;
