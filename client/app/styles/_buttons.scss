@@ -11,6 +11,11 @@
     }
 }
 
+.btn[disabled] {
+  opacity: 0.75;
+  cursor: wait;
+}
+
 .btn--gray {
     background-color: $lightestgray;
     color: $darkgray;

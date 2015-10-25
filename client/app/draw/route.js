@@ -17,6 +17,7 @@ export default Ember.Route.extend({
             return this.render('saveModal', {
                 into: 'application',
                 outlet: 'saveModal',
+                controller: 'draw',
                 model: model
             })
         },
@@ -27,7 +28,12 @@ export default Ember.Route.extend({
             })
         },
         save: function(model) {
-            model.save()
+            this.controller.set('status', 'isUploading')
+            model.save().then(() => {
+              this.controller.set('status', 'isDone')
+            }, () => {
+              console.log('error', arguments)
+            })
         },
         download: function(model) {
             var link = document.createElement('a')
@@ -41,7 +47,10 @@ export default Ember.Route.extend({
                 outlet: 'previewModal',
                 model: model
             })
-        }
+        },
+        willTransition() {
+          this.controller.set('status', null)
+        },
     }
 });
 
