@@ -7,7 +7,7 @@ export default DS.Model.extend({
     author: attr(),
     location: attr(),
     thumbnail: function() {
-        return 'https://s3.amazonaws.com/media.streetink/maps/thumbs/' + this.get('id') + '.png'
+        return 'https://s3.amazonaws.com/street-ink/maps/thumbs/' + this.get('id') + '.png'
     }.property('id'),
     pathData: attr(),
     imageData: attr('String'),

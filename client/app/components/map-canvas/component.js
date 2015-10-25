@@ -1,6 +1,8 @@
 /*global fabric,$*/
 import Ember from 'ember';
 
+const { htmlSafe } = Ember.String;
+
 export default Ember.Component.extend({
     // default attrs
     distance: 0,
@@ -12,7 +14,7 @@ export default Ember.Component.extend({
             fabric = this.get('fabric')
 
         this.set('currentStreet', firstStreet)
-        Ember.set(firstStreet, 'color', 'color: ' + this.get('currentColor.hex') + ';')
+        Ember.set(firstStreet, 'color', htmlSafe(`color: ${this.get('currentColor.hex')};`))
         this.set('distance', 0)
 
         if ( fabric ) {
@@ -23,7 +25,7 @@ export default Ember.Component.extend({
     streetChanged: function() {
         var newStreet = this.get('currentStreet'),
             color = this.get('currentColor.hex')
-        Ember.set(newStreet, 'color', 'color: ' + color + ';')
+        Ember.set(newStreet, 'color', htmlSafe(`color: ${color};`))
     }.observes('currentStreet'),
     resetModel: function() {
         this.notifyPropertyChange('currentCity')
@@ -35,7 +37,7 @@ export default Ember.Component.extend({
         if (typeof this.get('currentStreet') === 'undefined') {
             this.set('currentStreet', this.get('currentCity.streets').objectAt(0))
         }
-        Ember.set(this.get('currentStreet'), 'color', 'color: ' + this.get('currentColor.hex') + ';')
+        Ember.set(this.get('currentStreet'), 'color', htmlSafe(`color: ${this.get('currentColor.hex')};`))
         this.set('tip', $('<div/>', {'class': 'tooltip'}))
 
         var c = new fabric.Canvas('maps', {
@@ -227,7 +229,7 @@ export default Ember.Component.extend({
                     c._onMouseDownInDrawingMode(ops.e)
 
                     // reset tracked distance
-                    console.log(this.get('currentStreet.name'))
+                    // console.log(this.get('currentStreet.name'))
                     this.set('distance', distance - (this.get('currentStreet.length')/10))
                     this.advance('currentStreet', allStreets)
                 }

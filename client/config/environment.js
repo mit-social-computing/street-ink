@@ -20,7 +20,8 @@ module.exports = function(environment) {
 
     contentSecurityPolicy: {
       'connect-src': "'self' localhost:*",
-      'style-src': "'self' 'unsafe-inline'"
+      'style-src': "'self' 'unsafe-inline'",
+      'img-src': "'self' s3.amazonaws.com"
     }
   };
 

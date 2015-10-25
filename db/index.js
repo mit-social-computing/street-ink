@@ -6,13 +6,16 @@ function extractMapData(req) {
         location = map.location || 'no location',
         pathData = map.pathData,
         city = map.city,
-        image = map.imageData.replace(/^data:image\/png;base64,/, "")
+        image = map.imageData ? map.imageData.replace(/^data:image\/png;base64,/, "") : ''
 
     return [title, author, location, pathData, city, image]
 }
 
 function uploadThumb(img, mediaBucket, id) {
     require('gm')(img).resize(250).toBuffer('PNG', function(err, buf) {
+      if (err) {
+        return err
+      }
         mediaBucket.upload({ Body: buf, Key: 'thumbs/' + id + '.png'})
             .send(function(err, data) { console.log(err, data)  });
     })
@@ -36,10 +39,13 @@ function postOrPut(req, res) {
 
             var id = result.rows[0].id,
                 img = new Buffer(image, 'base64'),
-                mediaBucket = new AWS.S3({ params: { Bucket: 'media.streetink/maps' } })
+                mediaBucket = new AWS.S3({ params: { Bucket: 'street-ink/maps' } })
 
             // resize and upload
-            uploadThumb(img, mediaBucket, id)
+            var resultIfError = uploadThumb(img, mediaBucket, id)
+            if (resultIfError) {
+              return res.status(500).send('that\'s an error')
+            }
             // upload full size
             mediaBucket.upload({ Body: img, Key: 'full/' + id + '.png'  })
                 .send(function(err, data) { console.log(err, data)  });
@@ -47,7 +53,8 @@ function postOrPut(req, res) {
             res.json(id)
         } catch(e) { console.log(e) }
     }, function(err) {
-        res.status(500).send(err)
+        console.log(err)
+        res.status(500).send('sorry there\'s been an error. check the logs')
     })
 }
 
